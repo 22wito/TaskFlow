@@ -1,27 +1,45 @@
 <?php
     define("SITE_NAME", "TaskFlow");
     $pageTitle = SITE_NAME . " - Página de Inicio";
-    $userName = "Hugo Lozano"; // Tipo String
-    $userAge = 19;             // Tipo Integer
-    $isPremiumUser = true;     // Tipo Boolean
+    $userName = "Hugo Lozano Gallardo";
+    $userAge = 19;
+    $isPremiumUser = true;
+    $tasks = [
+        ["title" => "Comprar víveres", "completed" => false, "priority" => "alta"],
+        ["title" => "Lavar el coche", "completed" => true, "priority" => "media"],
+        ["title" => "Estudiar PHP", "completed" => false, "priority" => "baja"],
+        ["title" => "Hacer ejercicio", "completed" => true, "priority" => "alta"],
+        ["title" => "Leer un libro", "completed" => false, "priority" => "baja"],
+    ];
+    include "../app/views/header.php";
+
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title><?php echo $pageTitle; ?></title>
-</head>
-<body>
-    <header>
-        <h1>Bienvenido a <?php echo SITE_NAME; ?></h1>
-    </header>
+    <h2>Tareas Pendientes</h2>
+    <ul>
+        <?php
+            foreach ($tasks as $task) {
+                $taskClasses = "task-item";
+                if ($task["completed"]) {
+                    $taskClasses .= " completed";
+                }
+                switch ($task["priority"]) {
+                    case "alta":
+                        $taskClasses .= " prioridad-alta";
+                        break;
+                    case "media":
+                        $taskClasses .= " prioridad-media";
+                        break;
+                    case "baja":
+                        $taskClasses .= " prioridad-baja";
+                        break;
+                }
 
-    <main>
-        <h2>Perfil del Usuario</h2>
-        <p><strong>Nombre:</strong> <?php echo $userName; ?></p>
-        <p><strong>Edad:</strong> <?php echo $userAge; ?> años</p>
-        <p><strong>Estado de la cuenta:</strong> Usuario <?php echo $isPremiumUser ? "Premium" : "Estándar"; ?></p>
-    </main>
-</body>
-</html>
+                echo "<li class='" . $taskClasses . "'>" . $task["title"] . "</li>";
+            }
+        ?>
+    </ul>
+
+<?php
+    include "../app/views/footer.php";
+?>
